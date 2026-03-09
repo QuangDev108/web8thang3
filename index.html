@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chúc Mừng 8/3 – Gửi Mẹ Yêu</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:   #e8a0b4;
+    --card: #fce8f0;
+    --rose: #e83e8c;
+    --pink: #f472b6;
+    --deep: #9b2c5c;
+    --white: #fff8fb;
+    --dot: rgba(255,255,255,0.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    min-height:100vh;
+    background: radial-gradient(ellipse at 30% 40%, #d4708a, #c0516e 60%, #a83d5c);
+    background-attachment: fixed;
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* dots pattern overlay */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image: radial-gradient(var(--dot) 1.8px, transparent 1.8px);
+    background-size: 22px 22px;
+    pointer-events:none; z-index:0;
+  }
+
+  #fw { position:fixed; inset:0; pointer-events:none; z-index:0; }
+
+  /* ── HERO ── */
+  .hero {
+    position:relative; z-index:1;
+    text-align:center; padding:3.5rem 1rem 2rem;
+  }
+  .hero-date {
+    font-family:'Dancing Script',cursive;
+    font-size:1.15rem; color:rgba(255,255,255,0.85);
+    letter-spacing:.3em; margin-bottom:.6rem;
+  }
+  .hero-title {
+    font-family:'Dancing Script',cursive;
+    font-size:clamp(2.4rem,9vw,5rem);
+    color:#fff;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    line-height:1.15;
+  }
+  .hero-title span {
+    display:block;
+    font-size:clamp(1.4rem,5vw,2.5rem);
+    opacity:.9;
+  }
+  .hero-sub {
+    margin-top:.8rem;
+    font-size:1rem; color:rgba(255,255,255,0.8);
+    font-style:italic;
+  }
+
+  /* ── MENU GRID ── */
+  .menu {
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:1rem; max-width:400px;
+    margin:2.5rem auto 2rem; padding:0 1.2rem;
+  }
+
+  .menu-card {
+    background: rgba(255,255,255,0.92);
+    border-radius:22px;
+    padding:1.8rem 1rem 1.5rem;
+    display:flex; flex-direction:column; align-items:center; gap:.6rem;
+    cursor:pointer;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    border:2.5px solid transparent;
+    transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s, border-color .22s;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-card:hover {
+    transform:translateY(-6px) scale(1.04);
+    box-shadow:0 14px 36px rgba(0,0,0,0.18);
+    border-color: var(--rose);
+  }
+  .menu-card:active { transform:scale(.97); }
+
+  .card-icon { font-size:2.6rem; line-height:1; }
+  .card-label {
+    font-size:1rem; font-weight:800;
+    color: var(--rose);
+  }
+
+  /* ── MODAL BACKDROP ── */
+  .modal-backdrop {
+    display:none;
+    position:fixed; inset:0; z-index:100;
+    background:rgba(160,60,90,0.45);
+    backdrop-filter: blur(6px);
+    align-items:center; justify-content:center;
+    padding:1rem;
+    animation: backdropIn .25s ease;
+  }
+  .modal-backdrop.open { display:flex; }
+  @keyframes backdropIn { from{opacity:0} to{opacity:1} }
+
+  /* ── MODAL BOX ── */
+  .modal {
+    background: var(--white);
+    border-radius:26px;
+    padding:2rem 1.5rem 1.6rem;
+    width:100%; max-width:380px;
+    max-height:88vh; overflow-y:auto;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    animation: modalIn .3s cubic-bezier(.34,1.56,.64,1);
+    text-align:center;
+    scrollbar-width:none;
+  }
+  .modal::-webkit-scrollbar { display:none; }
+  @keyframes modalIn { from{opacity:0;transform:scale(.85) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+  .modal-icon { font-size:3rem; margin-bottom:.6rem; }
+  .modal-title {
+    font-family:'Dancing Script',cursive;
+    font-size:1.9rem; font-weight:700;
+    color: var(--rose); margin-bottom:1.4rem;
+  }
+
+  /* ── CLOSE BUTTON ── */
+  .btn-close {
+    display:inline-flex; align-items:center; gap:.4rem;
+    background: linear-gradient(135deg, var(--rose), #f472b6);
+    color:#fff; border:none; border-radius:50px;
+    padding:.65rem 2rem; font-size:1rem; font-weight:700;
+    font-family:'Nunito',sans-serif;
+    cursor:pointer; margin-top:1.3rem;
+    box-shadow:0 4px 16px rgba(232,62,140,.4);
+    transition:transform .18s, box-shadow .18s;
+  }
+  .btn-close:hover { transform:scale(1.06); box-shadow:0 6px 22px rgba(232,62,140,.5); }
+  .btn-close:active { transform:scale(.96); }
+
+  /* ── MUSIC PLAYLIST ── */
+  .playlist { text-align:left; margin-bottom:.5rem; }
+
+  .upload-area {
+    border:2px dashed rgba(232,62,140,.3);
+    border-radius:14px; padding:1rem;
+    text-align:center; margin-bottom:1rem;
+    cursor:pointer; transition:background .2s, border-color .2s;
+    color:#b06080; font-size:.9rem;
+  }
+  .upload-area:hover { background:rgba(232,62,140,.06); border-color:var(--rose); }
+  .upload-area input { display:none; }
+  .upload-area .upload-icon { font-size:1.6rem; display:block; margin-bottom:.3rem; }
+
+  .track {
+    display:flex; align-items:center; gap:.75rem;
+    background:rgba(232,62,140,.07);
+    border-radius:14px; padding:.75rem 1rem;
+    margin-bottom:.6rem; cursor:pointer;
+    transition:background .2s, transform .15s;
+    border:2px solid transparent;
+  }
+  .track:hover { background:rgba(232,62,140,.13); transform:translateX(3px); }
+  .track.playing { background:rgba(232,62,140,.15); border-color:rgba(232,62,140,.3); }
+
+  .track-note { font-size:1.1rem; color:var(--rose); flex-shrink:0; }
+  .track-name { flex:1; font-size:.93rem; font-weight:600; color:#7a2050; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .track-play {
+    width:28px; height:28px; border-radius:50%;
+    background:linear-gradient(135deg,var(--rose),#f472b6);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; transition:transform .15s;
+  }
+  .track:hover .track-play { transform:scale(1.15); }
+  .track-play svg { width:10px; height:10px; fill:#fff; margin-left:1px; }
+  .track.playing .track-play svg.icon-play { display:none; }
+  .track.playing .track-play svg.icon-pause { display:block !important; }
+  svg.icon-pause { display:none; }
+
+  /* mini player bar */
+  .now-playing {
+    display:none;
+    align-items:center; gap:.7rem;
+    background:linear-gradient(135deg,rgba(232,62,140,.1),rgba(244,114,182,.1));
+    border-radius:14px; padding:.75rem 1rem;
+    margin-bottom:.8rem; border:1.5px solid rgba(232,62,140,.2);
+  }
+  .now-playing.show { display:flex; }
+  .np-disc {
+    width:36px; height:36px; border-radius:50%;
+    background:linear-gradient(135deg,var(--rose),#f472b6);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; flex-shrink:0;
+    animation: spin 3s linear infinite paused;
+  }
+  .now-playing.show .np-disc { animation-play-state: running; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .np-info { flex:1; text-align:left; overflow:hidden; }
+  .np-label { font-size:.7rem; color:#b06080; text-transform:uppercase; letter-spacing:.08em; }
+  .np-name { font-size:.88rem; font-weight:700; color:#7a2050; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* ── POEM CARDS ── */
+  .poem-card {
+    background:rgba(232,62,140,.06);
+    border-radius:16px; padding:1.2rem 1.1rem;
+    margin-bottom:.9rem; text-align:left;
+    border-left:4px solid var(--rose);
+  }
+  .poem-ttl { font-weight:800; color:var(--rose); font-size:.9rem; margin-bottom:.6rem; }
+  .poem-body { font-size:.9rem; line-height:1.9; color:#7a2050; font-style:italic; white-space:pre-line; }
+
+  /* ── WISH CARDS ── */
+  .wish-card {
+    display:flex; align-items:flex-start; gap:.7rem;
+    background:rgba(232,62,140,.06);
+    border-radius:14px; padding:.9rem 1rem;
+    margin-bottom:.7rem; text-align:left;
+    border:1.5px solid rgba(232,62,140,.12);
+    transition:background .2s;
+  }
+  .wish-card:hover { background:rgba(232,62,140,.11); }
+  .wish-em { font-size:1.3rem; flex-shrink:0; margin-top:1px; }
+  .wish-txt { font-size:.9rem; line-height:1.7; color:#7a2050; font-style:italic; }
+
+  /* wish letter box */
+  .letter-box {
+    border:1.5px dashed rgba(232,62,140,.3);
+    border-radius:14px; padding:1rem 1.2rem;
+    font-size:.95rem; line-height:1.8;
+    color:#7a2050; font-style:italic;
+    text-align:left; margin-bottom:.3rem;
+    background:rgba(255,255,255,.6);
+  }
+
+  /* ── FIREWORKS PANEL ── */
+  .fw-panel { padding:.5rem 0; }
+  .fw-panel p { font-size:.95rem; color:#7a2050; font-style:italic; line-height:1.75; margin-bottom:1.2rem; }
+  .btn-fw {
+    display:inline-flex; align-items:center; gap:.5rem;
+    background:linear-gradient(135deg,var(--rose),#f472b6);
+    color:#fff; border:none; border-radius:50px;
+    padding:.65rem 1.8rem; font-size:1rem; font-weight:700;
+    font-family:'Nunito',sans-serif; cursor:pointer;
+    box-shadow:0 4px 16px rgba(232,62,140,.4);
+    transition:transform .18s, box-shadow .18s;
+  }
+  .btn-fw:hover { transform:scale(1.07); }
+
+  /* ── FOOTER ── */
+  .footer { position:relative; z-index:1; text-align:center; padding:1.5rem 1rem 3rem; }
+  .footer p { font-family:'Dancing Script',cursive; font-size:1.5rem; color:rgba(255,255,255,.9); }
+  .footer small { display:block; font-size:.8rem; color:rgba(255,255,255,.55); font-style:italic; margin-top:.3rem; }
+
+  /* PETALS */
+  .petal { position:fixed; pointer-events:none; z-index:0; animation:fallPetal linear infinite; opacity:0; }
+  @keyframes fallPetal { 0%{transform:translateY(-8vh) rotate(0deg);opacity:.7} 100%{transform:translateY(108vh) rotate(360deg);opacity:0} }
+</style>
+</head>
+<body>
+
+<canvas id="fw"></canvas>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-date">✦ 8 Tháng 3 ✦</p>
+  <h1 class="hero-title">
+    Chúc Mừng
+    <span>Ngày Của Mẹ 🌹</span>
+  </h1>
+  <p class="hero-sub">Gửi Mẹ yêu thương của con 💕</p>
+</div>
+
+<!-- MENU -->
+<div class="menu">
+  <div class="menu-card" onclick="openModal('music')">
+    <div class="card-icon">🎵</div>
+    <div class="card-label">Music</div>
+  </div>
+  <div class="menu-card" onclick="openModal('letter')">
+    <div class="card-icon">💌</div>
+    <div class="card-label">Lời chúc</div>
+  </div>
+  <div class="menu-card" onclick="openModal('poem')">
+    <div class="card-icon">📜</div>
+    <div class="card-label">Thơ tặng Mẹ</div>
+  </div>
+  <div class="menu-card" onclick="openModal('fireworks'); startFw()">
+    <div class="card-icon">🎆</div>
+    <div class="card-label">Pháo hoa</div>
+  </div>
+</div>
+
+<!-- ══════════ MUSIC MODAL ══════════ -->
+<div class="modal-backdrop" id="modal-music">
+  <div class="modal">
+    <div class="modal-icon">🎵</div>
+    <div class="modal-title">Bài hát do Quang tìm cho mẹ nghe</div>
+
+    <!-- now playing -->
+    <div class="now-playing" id="nowPlaying">
+      <div class="np-disc">🎵</div>
+      <div class="np-info">
+        <div class="np-label">Đang phát</div>
+        <div class="np-name" id="npName">—</div>
+      </div>
+    </div>
+
+    <!-- playlist -->
+    <div class="playlist" id="playlist"></div>
+
+    <audio id="audioPlayer" onended="trackEnded()"></audio>
+
+    <button class="btn-close" onclick="closeModal('music')">Close ✕</button>
+  </div>
+</div>
+
+<!-- ══════════ LETTER MODAL ══════════ -->
+<div class="modal-backdrop" id="modal-letter">
+  <div class="modal">
+    <div class="modal-icon">💌</div>
+    <div class="modal-title">con Quang gửi Mẹ Lời Chúc</div>
+
+    <div class="letter-box">
+      <p style="font-size:1.05rem;line-height:2;color:#7a2050;font-style:italic;text-align:left;">
+        🌹 <strong>Mẹ ơi,</strong><br><br>
+        Hôm nay — ngày của Mẹ — con muốn nói một điều mà bình thường con hay ngại ngùng không nói: <em>Con yêu Mẹ rất nhiều.</em><br><br>
+        Cảm ơn Mẹ đã dành cả cuộc đời để yêu thương và hy sinh vì con. Mỗi nếp nhăn trên bàn tay Mẹ, mỗi sợi tóc bạc trên đầu — đó là những dấu ấn của tình yêu vô bờ bến mà con trân trọng đến suốt đời.<br><br>
+        Con chúc Mẹ luôn mạnh khỏe, bình an và rạng rỡ nụ cười. Chúc Mẹ trẻ mãi, hạnh phúc mãi — vì Mẹ xứng đáng được nhận tất cả những điều tốt đẹp nhất mà cuộc đời này có thể dành tặng.<br><br>
+        Dù con có lớn đến đâu, trong lòng con Mẹ vẫn mãi là người anh hùng vĩ đại nhất — là mái ấm, là ngọn đèn, là tất cả của con.💕
+      </p>
+    </div>
+
+    <button class="btn-close" onclick="closeModal('letter')">Close ✕</button>
+  </div>
+</div>
+
+<!-- ══════════ POEM MODAL ══════════ -->
+<div class="modal-backdrop" id="modal-poem">
+  <div class="modal">
+    <div class="modal-icon">📜</div>
+    <div class="modal-title">Thơ Tặng Mẹ</div>
+
+    <div class="poem-card">
+      <p class="poem-ttl">🌹 Mẹ – Ngọn Đèn Cuộc Đời</p>
+      <p class="poem-body">Mẹ là ngọn đèn sáng mãi không tàn,
+Soi từng bước con đi qua gian nan.
+Bàn tay Mẹ ấm như trời mùa hạ,
+Lời Mẹ ngọt hơn mật ngọt muôn vàn.
+
+Dù con đi đến cuối trời phương xa,
+Lòng vẫn nhớ mái nhà, nhớ tiếng Mẹ ca.
+Cảm ơn Mẹ đã cho con tất cả—
+Yêu Mẹ mãi, hôm nay và ngày mai.</p>
+    </div>
+
+    <div class="poem-card">
+      <p class="poem-ttl">🌸 Bàn Tay Mẹ</p>
+      <p class="poem-body">Bàn tay Mẹ gầy guộc, chai sần,
+Gánh bao mưa nắng, tháng năm không ngừng.
+Ru con ngủ những đêm dài lạnh giá,
+Nâng con dậy mỗi sáng bình minh.
+
+Hôm nay con lớn, hiểu lòng Mẹ hơn,
+Mỗi nếp nhăn là một hy sinh thầm.
+Con xin hứa sẽ luôn bên Mẹ mãi,
+Để Mẹ cười — đó là niềm vui nhất.</p>
+    </div>
+
+    <div class="poem-card">
+      <p class="poem-ttl">🌺 Mùa Xuân Là Mẹ</p>
+      <p class="poem-body">Mùa xuân về mang hương hoa dịu dàng,
+Nhưng không đẹp bằng nụ cười của Mẹ.
+Hoa mai nở vàng, hoa đào thắm sắc,
+Chẳng thể sánh tình Mẹ — vô bờ bến.
+
+Con chúc Mẹ sức khỏe, bình an mãi,
+Tóc Mẹ xanh, lòng Mẹ rộng như trời.
+Ngày Phụ Nữ con gửi muôn yêu thương,
+Mẹ là tất cả — trái tim con ơi.</p>
+    </div>
+
+    <button class="btn-close" onclick="closeModal('poem')">Close ✕</button>
+  </div>
+</div>
+
+<!-- ══════════ FIREWORKS MODAL ══════════ -->
+<div class="modal-backdrop" id="modal-fireworks">
+  <div class="modal">
+    <div class="modal-icon">🎆</div>
+    <div class="modal-title">Pháo Hoa</div>
+    <div class="fw-panel">
+      <p>Pháo hoa đang bắn cho Mẹ! 🎇<br>Đóng popup và <strong>nhấp vào màn hình</strong> để bắn thêm pháo hoa rực rỡ nhé!</p>
+      <button class="btn-fw" onclick="burstMany(); burstMany(); burstMany()">🎇 Bắn Pháo Hoa!</button>
+    </div>
+    <button class="btn-close" onclick="closeModal('fireworks')">Close ✕</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Con yêu Mẹ mãi mãi 💕</p>
+  <small>— Gửi Mẹ nhân ngày 8 tháng 3 —</small><br><br><br><br><br><br><hr>
+  <p>Website:Quang làm để tặng mẹ</p>
+</div>
+
+<script>
+// ── MODAL ─────────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById('modal-'+id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById('modal-'+id).classList.remove('open');
+  if(id === 'fireworks') {
+    fwRunning = false;
+    parts = []; shells = [];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+// close on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', e => {
+    if(e.target === bd) {
+      const id = bd.id.replace('modal-','');
+      closeModal(id);
+    }
+  });
+});
+
+// ── MUSIC PLAYER ──────────────────────────────────────────────────
+const audio = document.getElementById('audioPlayer');
+let tracks = [
+  { name: 'Ca Dao Mẹ – Nhất Sinh', url: 'Ca_Dao_Mẹ___Nhất_Sinh__Hát_mãi_ước_mơ.mp3' },
+  { name: 'Gánh Mẹ – Nhất Sinh', url: 'Gánh_mẹ_-_Nhất_sinh_-_Cậu_bé_mù__Vẽ__bức_tranh_hát_đầy_tình_cảm___oFokTrSEn8c_.mp3' },
+  { name: 'Huyền Thoại Mẹ – Nhất Sinh', url: 'Huyền_Thoại_Mẹ_-_Nhất_Sinh_cậu_bé_khiếm_thị_hát_quá_hay__UylWk2K510s_.mp3' },
+  { name: 'Mẹ Yêu – Tuấn Hưng & Các Nghệ Sĩ', url: 'MẸ_YÊU_-_TUẤN_HƯNG___TRẦN_MẠNH_CƯỜNG___VŨ_TUẤN_HÙNG___KEVIN_TRẦN_live_at__Lululola__KxArmXdM_Wc_.mp3' },
+];
+let currentIdx = -1;
+
+function renderPlaylist() {
+  const pl = document.getElementById('playlist');
+  if(tracks.length === 0) {
+    pl.innerHTML = '<p style="text-align:center;color:#c080a0;font-size:.85rem;font-style:italic;">Chưa có bài nào 🎶</p>';
+    return;
+  }
+  pl.innerHTML = tracks.map((t, i) => `
+    <div class="track ${i===currentIdx?'playing':''}" id="track-${i}" onclick="playTrack(${i})">
+      <span class="track-note">🎵</span>
+      <span class="track-name">${t.name}</span>
+      <div class="track-play">
+        <svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+        <svg class="icon-pause" viewBox="0 0 10 10"><rect x="1.5" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg>
+      </div>
+    </div>
+  `).join('');
+}
+
+function playTrack(idx) {
+  if(currentIdx === idx && !audio.paused) {
+    audio.pause();
+    currentIdx = -1;
+    document.getElementById('nowPlaying').classList.remove('show');
+    renderPlaylist();
+    return;
+  }
+  currentIdx = idx;
+  audio.src = tracks[idx].url;
+  audio.play();
+  document.getElementById('npName').textContent = tracks[idx].name;
+  document.getElementById('nowPlaying').classList.add('show');
+  renderPlaylist();
+}
+
+function trackEnded() {
+  if(currentIdx < tracks.length - 1) playTrack(currentIdx + 1);
+  else {
+    currentIdx = -1;
+    document.getElementById('nowPlaying').classList.remove('show');
+    renderPlaylist();
+  }
+}
+renderPlaylist();
+
+// ── FIREWORKS ─────────────────────────────────────────────────────
+const canvas = document.getElementById('fw');
+const ctx = canvas.getContext('2d');
+let fwRunning = false;
+function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+const COLORS=['#e8436a','#f7b8c8','#d4a843','#f9d5e0','#ff6b9d','#ffd700','#ff8fab','#c084fc'];
+
+class Particle {
+  constructor(x,y,col){
+    this.x=x;this.y=y;this.color=col;
+    const a=Math.random()*Math.PI*2, s=Math.random()*5+1.5;
+    this.vx=Math.cos(a)*s; this.vy=Math.sin(a)*s;
+    this.life=1; this.decay=Math.random()*.016+.01;
+    this.size=Math.random()*3+1; this.trail=[];
+  }
+  update(){
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>6) this.trail.shift();
+    this.vy+=.08; this.vx*=.99;
+    this.x+=this.vx; this.y+=this.vy; this.life-=this.decay;
+  }
+  draw(){
+    if(this.trail.length>1){
+      ctx.beginPath(); ctx.moveTo(this.trail[0].x,this.trail[0].y);
+      this.trail.forEach(t=>ctx.lineTo(t.x,t.y));
+      ctx.strokeStyle=this.color; ctx.lineWidth=this.size*.4;
+      ctx.globalAlpha=this.life*.4; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(this.x,this.y,Math.max(0,this.size*this.life),0,Math.PI*2);
+    ctx.fillStyle=this.color; ctx.globalAlpha=this.life; ctx.fill();
+    ctx.globalAlpha=1;
+  }
+}
+
+class Shell {
+  constructor(sx){
+    this.x=sx||Math.random()*canvas.width; this.y=canvas.height+10;
+    this.targetY=Math.random()*canvas.height*.45+80;
+    this.vy=-Math.random()*8-10; this.color=COLORS[Math.floor(Math.random()*COLORS.length)];
+    this.exploded=false; this.trail=[];
+  }
+  update(){
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>10) this.trail.shift();
+    this.vy+=.25; this.y+=this.vy;
+    if(this.vy>=0||this.y<=this.targetY) this.explode();
+  }
+  explode(){
+    this.exploded=true;
+    const col=COLORS[Math.floor(Math.random()*COLORS.length)];
+    for(let i=0;i<80;i++) parts.push(new Particle(this.x,this.y,col));
+    if(Math.random()<.4){
+      for(let i=0;i<28;i++){
+        const t=(i/28)*Math.PI*2;
+        const hx=this.x+5*(16*Math.pow(Math.sin(t),3));
+        const hy=this.y-5*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+        const p=new Particle(this.x,this.y,'#ff6b9d');
+        const dx=hx-this.x,dy=hy-this.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+        p.vx=(dx/d)*(Math.random()*3+2); p.vy=(dy/d)*(Math.random()*3+2);
+        parts.push(p);
+      }
+    }
+  }
+  draw(){
+    if(this.trail.length>1){
+      ctx.beginPath(); ctx.moveTo(this.trail[0].x,this.trail[0].y);
+      this.trail.forEach(t=>ctx.lineTo(t.x,t.y));
+      ctx.strokeStyle=this.color; ctx.lineWidth=2; ctx.globalAlpha=.5; ctx.stroke(); ctx.globalAlpha=1;
+    }
+  }
+}
+
+let parts=[], shells=[], lastShell=0;
+
+function burstMany(cx,cy){
+  const x=(cx !== undefined) ? cx : (Math.random()*.8+.1)*canvas.width;
+  const y=(cy !== undefined) ? cy : (Math.random()*.4+.05)*canvas.height;
+  const col=COLORS[Math.floor(Math.random()*COLORS.length)];
+  for(let i=0;i<110;i++) parts.push(new Particle(x,y,col));
+}
+
+function startFw(){
+  fwRunning=true;
+  parts=[]; shells=[];
+  for(let i=0;i<4;i++) setTimeout(()=>{ shells.push(new Shell()); }, i*300);
+}
+
+function loop(ts){
+  if(fwRunning || parts.length>0 || shells.length>0){
+    ctx.fillStyle='rgba(168,61,92,0.18)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  } else {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  if(fwRunning && ts-lastShell>750+Math.random()*600){
+    shells.push(new Shell()); lastShell=ts;
+  }
+  shells=shells.filter(s=>!s.exploded);
+  shells.forEach(s=>{s.update();s.draw();});
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{p.update();p.draw();});
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+document.addEventListener('click', e=>{
+  if(e.target.closest('.menu-card')||e.target.closest('.modal')||e.target.closest('.btn-fw')) return;
+  if(fwRunning) burstMany(e.clientX,e.clientY);
+});
+
+// PETALS
+['🌸','🌺','🌹','💕','✨'].forEach((em,_,arr)=>{
+  for(let i=0;i<3;i++){
+    const el=document.createElement('div');
+    el.className='petal'; el.textContent=arr[Math.floor(Math.random()*arr.length)];
+    el.style.cssText=`left:${Math.random()*100}vw;font-size:${Math.random()*.7+.6}rem;animation-duration:${Math.random()*9+7}s;animation-delay:${Math.random()*14}s`;
+    document.body.appendChild(el);
+  }
+});
+</script>
+</body>
+</html>
